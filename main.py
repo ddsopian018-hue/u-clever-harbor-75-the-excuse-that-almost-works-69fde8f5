@@ -31,12 +31,17 @@ LINE = (
 )
 
 # The gate: entry.txt must be UTF-8 text of 1 to 140 characters, and
-# the judge's brief caps the line at 20 words. Enforce both here.
+# the judge's brief caps the line at 20 words. Enforce both here, plus
+# the gate's single-line and not-whitespace-only conditions.
 MAX_CHARS = 140
 MAX_WORDS = 20
 
 
 def main():
+    if "\n" in LINE or "\r" in LINE:
+        raise SystemExit("entry line must be a single line of text")
+    if not LINE.strip():
+        raise SystemExit("entry line must not be only whitespace")
     if not 1 <= len(LINE) <= MAX_CHARS:
         raise SystemExit(
             "entry line is %d characters, outside the 1-%d gate"
